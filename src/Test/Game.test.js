@@ -71,7 +71,7 @@ describe('Game component', () => {
         return false;
     }
 
-    const isColumnCompletedByTheActivePlayer = (columnStartIndex, totalColumns) => {
+    const isColumnCompletedByTheActivePlayer = () => {
         const squareButtonList = wrapper.find("ul li .square-button");
         const squareButton1 = squareButtonList.at(0);
         const squareButton2 = squareButtonList.at(1);
@@ -87,6 +87,28 @@ describe('Game component', () => {
 
         if (squareButton1.text() === squareButton4.text() &&
             squareButton1.text() === squareButton7.text()) {
+                return true; 
+            }
+        
+        return false;
+    }
+
+    const isDiagonalCompletedByTheActivePlayer = () => {
+        const squareButtonList = wrapper.find("ul li .square-button");
+        const squareButton1 = squareButtonList.at(0);
+        const squareButton2 = squareButtonList.at(1);
+        const squareButton3 = squareButtonList.at(2);
+        const squareButton4 = squareButtonList.at(4);
+        const squareButton9 = squareButtonList.at(8);
+        
+        squareButton1.simulate('click');
+        squareButton2.simulate('click');
+        squareButton4.simulate('click');
+        squareButton3.simulate('click');
+        squareButton9.simulate('click');
+
+        if (squareButton1.text() === squareButton4.text() &&
+            squareButton1.text() === squareButton9.text()) {
                 return true; 
             }
         
@@ -127,6 +149,11 @@ describe('Game component', () => {
 
     it("Should check isColumnCompletedByTheActivePlayer", () => {
         const result = isColumnCompletedByTheActivePlayer();
+        expect(result).toEqual(true);
+    });
+
+    it("Should check isDiagonalCompletedByTheActivePlayer", () => {
+        const result = isDiagonalCompletedByTheActivePlayer();
         expect(result).toEqual(true);
     });
 
