@@ -144,17 +144,30 @@ describe('Game component', () => {
 
     it("Should check isAnyRowCompletedByActivePlayer", () => {
         const result = isAnyRowCompletedByTheActivePlayer();
+        
         expect(result).toEqual(true);
     });
 
     it("Should check isColumnCompletedByTheActivePlayer", () => {
         const result = isColumnCompletedByTheActivePlayer();
+        
         expect(result).toEqual(true);
     });
 
     it("Should check isDiagonalCompletedByTheActivePlayer", () => {
         const result = isDiagonalCompletedByTheActivePlayer();
+        
         expect(result).toEqual(true);
+    });
+
+    it("Should not proceed the game further, if player wins", () => {
+        isDiagonalCompletedByTheActivePlayer();
+
+        const squaresList = wrapper.find(Square);
+
+        squaresList.forEach(square => {
+            expect(square.props().isDisabled).toBeTruthy();
+        });
     });
 
 });

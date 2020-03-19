@@ -5,7 +5,8 @@ import { Square } from './Square';
 export const Game = () => {
     const initialState = {
         activePlayer: constants.PLAYER_X,
-        winner: null
+        winner: null,
+        isGameOver: false
     }
     const [gameState, setGameState] = useState(initialState)
     const [square, setSquare] = useState([]);
@@ -16,7 +17,8 @@ export const Game = () => {
         for(let i = 0; i < 9; i++) {
             squareList.push(<li key={i}>
                 <Square clickNotification={clickNotification.bind(this, i)} 
-                    value={getFilledSquaresValue(i)} />
+                    value={getFilledSquaresValue(i)}
+                    isDisabled={isSquareDisabled(i)} />
             </li>);
         }
 
@@ -39,19 +41,25 @@ export const Game = () => {
         return gameState.activePlayer === constants.PLAYER_X ? constants.PLAYER_O : constants.PLAYER_X;
     }
 
-    const checkActivePlayerWintheGame = () => {
+    const isSquareDisabled = (index) => {
+        return (square[index] || gameState.isGameOver) ? true : false;
+    }
+
+    const checkActivePlayerWintheGame = () => { 
         if (isAnyRowCompletedByTheActivePlayer() ||
             isAnyColumnCompletedByTheActivePlayer() || 
             isAnyDiagonalCompletedByTheActivePlayer()
         ) {
             setGameState((prevState) => ({
                 ...prevState,
-                winner: gameState.activePlayer
+                winner: gameState.activePlayer,
+                isGameOver: true
             }));
         } else {
             setGameState((prevState) => ({
                 ...prevState,
-                activePlayer: getInactivePlayer() 
+                activePlayer: getInactivePlayer(),
+                isGameOver: false 
             }));
         }
     }
@@ -130,12 +138,21 @@ export const Game = () => {
             filledSquares[diagonalIndexList[index][2]] === activePlayer);
     }
 
+    const showGameOverMessage = () => {
+        return gameState.winner ? 
+            (<p className='win-msg'>{`Player ${gameState.winner} win the game`}</p>)
+            :
+            (<p>''</p>);
+
+    }
+
     return (
         <div className="game">
             <h4>{`${constants.PLAYER_NEXT} ${gameState.activePlayer}`}</h4>
             <ul className="board"> 
                 { renderSquare() }        
             </ul>
+            {gameState.isGameOver && showGameOverMessage()}
         </div>
     );
 }
