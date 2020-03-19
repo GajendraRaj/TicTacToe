@@ -8,6 +8,7 @@ describe('Game component', () => {
     let wrapper;
 
     beforeEach(() => {
+        
         wrapper = shallow(<Game />);
     });
 
