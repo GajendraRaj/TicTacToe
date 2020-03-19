@@ -10,6 +10,7 @@ export const Game = () => {
     }
     const [gameState, setGameState] = useState(initialState)
     const [square, setSquare] = useState([]);
+    const [filledSquareCount, setFilledSquareCount] = useState(0);
 
     const renderSquare = () => {
         let squareList = [];
@@ -30,6 +31,7 @@ export const Game = () => {
         
         filledSquares[index] = gameState.activePlayer;
         setSquare(filledSquares);
+        setFilledSquareCount(filledSquareCount + 1);
         checkActivePlayerWintheGame();
     }
 
@@ -53,6 +55,11 @@ export const Game = () => {
             setGameState((prevState) => ({
                 ...prevState,
                 winner: gameState.activePlayer,
+                isGameOver: true
+            }));
+        } else if (isGameDrawn()) {
+            setGameState((prevState) => ({
+                ...prevState,
                 isGameOver: true
             }));
         } else {
@@ -136,6 +143,10 @@ export const Game = () => {
         return (filledSquares[diagonalIndexList[index][0]] === activePlayer && 
             filledSquares[diagonalIndexList[index][1]] === activePlayer && 
             filledSquares[diagonalIndexList[index][2]] === activePlayer);
+    }
+
+    const isGameDrawn = () => {
+        return (filledSquareCount === 9);
     }
 
     const showGameOverMessage = () => {

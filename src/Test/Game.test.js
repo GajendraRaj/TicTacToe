@@ -170,4 +170,35 @@ describe('Game component', () => {
         });
     });
 
+    it("Should be drawn if all the squares filled in the board but not win", () => {
+        const squareButtonList = wrapper.find("ul li .square-button");
+        const squareButton0 = squareButtonList.at(0);
+        const squareButton1 = squareButtonList.at(1);
+        const squareButton2 = squareButtonList.at(2);
+        const squareButton3 = squareButtonList.at(3);
+        const squareButton4 = squareButtonList.at(4);
+        const squareButton5 = squareButtonList.at(5);
+        const squareButton6 = squareButtonList.at(6);
+        const squareButton7 = squareButtonList.at(7);
+        const squareButton8 = squareButtonList.at(8);
+
+        squareButton0.simulate("click");
+        squareButton1.simulate("click");
+        squareButton2.simulate("click");
+        squareButton6.simulate("click");
+        squareButton7.simulate("click");
+        squareButton8.simulate("click");
+        squareButton3.simulate("click");
+        squareButton4.simulate("click");
+        squareButton5.simulate("click");
+
+        const isRowCompleted = (squareButton0.text() === squareButton1.text() && squareButton0.text() === squareButton2.text());
+        const isColumnCompleted = (squareButton0.text() === squareButton3.text() && squareButton0.text() === squareButton6.text());     
+        const isDiagonalCompleted = (squareButton0.text() === squareButton4.text() && squareButton0.text() === squareButton8.text());
+        const result = squareButtonList.length === 9 && !isRowCompleted && !isColumnCompleted && !isDiagonalCompleted; 
+        
+        expect(result).toEqual(true);
+
+    });
+
 });
