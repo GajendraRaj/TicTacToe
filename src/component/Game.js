@@ -4,7 +4,8 @@ import { Square } from './Square';
 
 export const Game = () => {
     const initialState = {
-        activePlayer: constants.PLAYER_X 
+        activePlayer: constants.PLAYER_X,
+        winner: null
     }
     const [gameState, setGameState] = useState(initialState)
     const [square, setSquare] = useState([]);
@@ -27,10 +28,7 @@ export const Game = () => {
         
         filledSquares[index] = gameState.activePlayer;
         setSquare(filledSquares);
-        setGameState((prevState) => ({
-            ...prevState,
-            activePlayer: getInactivePlayer() 
-        })); 
+        checkActivePlayerWintheGame();
     }
 
     const getFilledSquaresValue = (index) => {
@@ -39,6 +37,45 @@ export const Game = () => {
 
     const getInactivePlayer = () => {
         return gameState.activePlayer === constants.PLAYER_X ? constants.PLAYER_O : constants.PLAYER_X;
+    }
+
+    const checkActivePlayerWintheGame = () => {
+        if (isAnyRowCompletedByTheActivePlayer()) {
+            setGameState((prevState) => ({
+                ...prevState,
+                winner: gameState.activePlayer
+            }));
+        } else {
+            setGameState((prevState) => ({
+                ...prevState,
+                activePlayer: getInactivePlayer() 
+            }));
+        }
+    }
+
+    const isAnyRowCompletedByTheActivePlayer = () => {
+        const rowStartIndexList = [0, 3, 6];
+        const totalRows = 3;
+        let isPlayerWin = false;
+
+        for (let rowIndex = 0; rowIndex < totalRows; rowIndex++) {
+            let rowStartIndex = rowStartIndexList[rowIndex];
+            if (isRowCompletedByTheActivePlayer(rowStartIndex)) {
+                isPlayerWin = true;
+                break;
+            }
+        }
+
+        return isPlayerWin;
+    }
+
+    const isRowCompletedByTheActivePlayer = (rowStartIndex) => {
+        const activePlayer = gameState.activePlayer;
+        const filledSquares = square;
+
+        return (filledSquares[rowStartIndex] === activePlayer &&
+            filledSquares[rowStartIndex + 1] === activePlayer &&
+            filledSquares[rowStartIndex + 2] === activePlayer);
     }
 
     return (

@@ -33,6 +33,38 @@ describe('Game component', () => {
         wrapper = mount(<Game />);
     });
 
+    const isAnyRowCompletedByTheActivePlayer = () => {
+        const rowStartIndexList = [0, 3, 6];
+        const totalRows = 3;
+        let isPlayerWin = false;
+
+        for (let rowIndex = 0; rowIndex < totalRows; rowIndex++) {
+            let rowStartIndex = rowStartIndexList[rowIndex];
+            if (isRowCompletedByTheActivePlayer(rowStartIndex)) {
+                isPlayerWin = true;
+                break;
+            }
+        }
+
+        return isPlayerWin;
+    }
+
+    const isRowCompletedByTheActivePlayer = (rowStartIndex) => {
+        const squareButtonList = wrapper.find("ul li .square-button");
+        
+        for(let index = 0; index < 9; index++) {
+            squareButtonList.at(index).simulate('click');
+        }
+
+
+        const squareButton1 = squareButtonList.at(rowStartIndex);
+        const squareButton2 = squareButtonList.at(rowStartIndex + 1);
+        const squareButton3 = squareButtonList.at(rowStartIndex + 2);
+
+        return (squareButton1.text() === squareButton2.text() &&
+        squareButton1.text() === squareButton3.text());
+    }
+
     it("Should update the filledSquares list with player 'X' for the first time", () => {
         const squareButtonList = wrapper.find("ul li .square-button");
         
@@ -58,6 +90,11 @@ describe('Game component', () => {
 
         expect(squareButton1.text()).toEqual(constants.PLAYER_X);
         expect(squareButton4.text()).toEqual(constants.PLAYER_O);
+    });
+
+    it("Should check isAnyRowCompletedByActivePlayer", () => {
+        const result = isAnyRowCompletedByTheActivePlayer();
+        expect(result).toEqual(true);
     });
 
 });
