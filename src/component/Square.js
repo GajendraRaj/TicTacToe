@@ -1,5 +1,5 @@
 import React from 'react';
 
-export const Square = () => {
-    return (<button></button>); 
+export const Square = (props) => {
+    return (<button>{props.activePlayer}</button>); 
 }

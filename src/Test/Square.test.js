@@ -7,5 +7,5 @@ describe('Square component', () => {
 
     it('Should have square button', () => {
         expect(wrapper.find('button').length).toEqual(1);
-    });
+    });   
 });

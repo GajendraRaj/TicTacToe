@@ -16,6 +16,10 @@ describe('Game component', () => {
     });
 
     it("Should render the <Square /> component", () => {
-        expect(wrapper.find(Square).length).toEqual(1);
+        expect(wrapper.find(Square).length).toEqual(9);
+    });
+
+    it("Should have 9 squares in the board", () => {
+        expect(wrapper.find('ul li').length).toEqual(9);
     });
 });
