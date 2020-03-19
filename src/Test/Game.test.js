@@ -49,20 +49,48 @@ describe('Game component', () => {
         return isPlayerWin;
     }
 
-    const isRowCompletedByTheActivePlayer = (rowStartIndex) => {
+    const isRowCompletedByTheActivePlayer = () => {
         const squareButtonList = wrapper.find("ul li .square-button");
+        const squareButton1 = squareButtonList.at(0);
+        const squareButton2 = squareButtonList.at(1);
+        const squareButton3 = squareButtonList.at(2);
+        const squareButton4 = squareButtonList.at(3);
+        const squareButton5 = squareButtonList.at(5);
+
+        squareButton1.simulate('click');
+        squareButton4.simulate('click');
+        squareButton2.simulate('click');
+        squareButton5.simulate('click');
+        squareButton3.simulate('click');
+
+        if (squareButton1.text() === squareButton2.text() &&
+            squareButton1.text() === squareButton3.text()) {
+                return true; 
+            }
         
-        for(let index = 0; index < 9; index++) {
-            squareButtonList.at(index).simulate('click');
-        }
+        return false;
+    }
 
+    const isColumnCompletedByTheActivePlayer = (columnStartIndex, totalColumns) => {
+        const squareButtonList = wrapper.find("ul li .square-button");
+        const squareButton1 = squareButtonList.at(0);
+        const squareButton2 = squareButtonList.at(1);
+        const squareButton4 = squareButtonList.at(3);
+        const squareButton5 = squareButtonList.at(4);
+        const squareButton7 = squareButtonList.at(6);
+        
+        squareButton1.simulate('click');
+        squareButton2.simulate('click');
+        squareButton4.simulate('click');
+        squareButton5.simulate('click');
+        squareButton7.simulate('click');
 
-        const squareButton1 = squareButtonList.at(rowStartIndex);
-        const squareButton2 = squareButtonList.at(rowStartIndex + 1);
-        const squareButton3 = squareButtonList.at(rowStartIndex + 2);
-
-        return (squareButton1.text() === squareButton2.text() &&
-        squareButton1.text() === squareButton3.text());
+        if (squareButton1.text() === squareButton4.text() &&
+            squareButton1.text() === squareButton7.text()) {
+                return true; 
+            }
+        
+        return false;
     }
 
     it("Should update the filledSquares list with player 'X' for the first time", () => {
@@ -94,6 +122,11 @@ describe('Game component', () => {
 
     it("Should check isAnyRowCompletedByActivePlayer", () => {
         const result = isAnyRowCompletedByTheActivePlayer();
+        expect(result).toEqual(true);
+    });
+
+    it("Should check isColumnCompletedByTheActivePlayer", () => {
+        const result = isColumnCompletedByTheActivePlayer();
         expect(result).toEqual(true);
     });
 
