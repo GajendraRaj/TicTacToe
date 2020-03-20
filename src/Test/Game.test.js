@@ -16,12 +16,16 @@ describe('Game component', () => {
         expect(wrapper.find("h4").text()).toEqual(constants.PLAYER_NEXT + " " + constants.PLAYER_X);
     });
 
-    it("Should render the <Square /> component", () => {
+    it("Should render the Square component", () => {
         expect(wrapper.find(Square).length).toEqual(9);
     });
 
     it("Should have 9 squares in the board", () => {
         expect(wrapper.find('ul li').length).toEqual(9);
+    });
+
+    it('Should render reset button', () => {
+        expect(wrapper.find('button').text()).toEqual('Play again');
     });
    
 });
@@ -199,6 +203,15 @@ describe('Game component', () => {
         
         expect(result).toEqual(true);
 
+    });
+
+    it("Should reset all the filled squares on play again button click", () => {
+        const resetButton = wrapper.find('button').at(0);
+        const squareButtonList = wrapper.find('ul li .square-button');
+        
+        resetButton.simulate("click");
+        
+        expect(squareButtonList.at(1).text()).toEqual('');
     });
 
 });
