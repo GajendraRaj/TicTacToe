@@ -48,7 +48,6 @@ export const Game = () => {
     }
 
     const checkActivePlayerWintheGame = () => {
-        console.log('checkActivePlayerWin ');
         if (isAnyRowCompletedByTheActivePlayer() ||
             isAnyColumnCompletedByTheActivePlayer() || 
             isAnyDiagonalCompletedByTheActivePlayer()
@@ -147,12 +146,10 @@ export const Game = () => {
     }
 
     const isGameDrawn = () => {
-        console.log('isGameDrawn - ' + filledSquareCount);
         return (filledSquareCount === 9);
     }
 
     const showGameOverMessage = () => {
-        console.log("showGameOverMessage - " + gameState.winner);
         return gameState.winner ? 
             (<p>{`Player ${gameState.winner} win the game`}</p>)
             :
